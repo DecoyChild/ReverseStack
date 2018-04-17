@@ -1,0 +1,16 @@
+public interface Queue<T> { // Queue class ADT
+  // Reinitialize queue
+  public void clear();
+
+  // Put element on rear
+  public boolean enqueue(T it);
+
+  // Remove and return element from front
+  public T dequeue();
+
+  // Return front element
+  public T frontValue();
+
+  // Return queue size
+  public int length();
+}
