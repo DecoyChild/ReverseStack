@@ -1,0 +1,50 @@
+public class DoubleLinkedNode<T> 
+{
+    private DoubleLinkedNode next;
+    private DoubleLinkedNode prev;
+    private T element;
+
+    public DoubleLinkedNode( T element, DoubleLinkedNode next, DoubleLinkedNode prev) {
+        this.next = next;
+        this.prev = prev;
+        this.element = element;
+    }
+
+    public DoubleLinkedNode(T element) {
+        this.element = element;
+        this.next = null;
+        this.prev = null;
+    }
+    
+    public DoubleLinkedNode(){
+        this.next = null;
+        this.prev = null;
+    }
+    
+    public DoubleLinkedNode getNext() {
+        return next;
+    }
+    
+    public DoubleLinkedNode getPrev() {
+        return prev;
+    }
+
+    public void setNext(DoubleLinkedNode next) {
+        this.next = next;
+    }
+    
+    public void setPrev(DoubleLinkedNode prev){
+        this.prev = prev;
+    }
+
+    public T getElement() {
+        return element;
+    }
+
+    public void setElement(T element) {
+        this.element = element;
+    }
+    
+    
+    
+}
