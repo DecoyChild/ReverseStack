@@ -1,0 +1,153 @@
+public class LinkedQueue<T> implements Queue<T>
+{
+    private DoubleLinkedNode<T> front, rear, curr;
+
+    //starts the linked queue with empy fron and rear
+    public LinkedQueue()
+    {
+        front = new DoubleLinkedNode();
+        rear = new DoubleLinkedNode();
+        front.setNext(rear);
+        front.setPrev(null);
+        rear.setNext(null);
+        rear.setPrev(front);
+        curr = front;
+    }
+    @Override
+    public void clear()
+    {
+       this.front.setNext(rear);
+       this.rear.setPrev(front);
+       this.curr = this.front;
+    }
+
+    @Override
+    public boolean enqueue(T element)
+    {
+        DoubleLinkedNode newNode = new DoubleLinkedNode(element, rear, curr);
+        curr.setNext(newNode);
+        rear.setPrev(newNode);
+        curr = newNode;
+        return true;
+        }
+
+    //remeoves an element from the front
+    @Override
+    public T dequeue()
+    {
+        if (count() == 0) return null;
+        T temp = (T) front.getNext().getElement();
+        front.setNext(front.getNext().getNext());
+        front.getNext().setPrev(front);
+        return temp;
+    }
+
+    @Override
+    public T frontValue()
+    {
+        return (T) front.getNext().getElement();
+    }
+
+    //just calls count()
+    @Override
+    public int length()
+    {
+        return count();
+    }
+    
+    //swaps the front two node elements
+    public boolean swapFront()
+    {
+        if (count() < 2 ) return false;
+        //create a temp node
+        DoubleLinkedNode<T> temp = new DoubleLinkedNode();
+        //set that value as the fronts next
+        temp.setElement((T) front.getNext().getElement());
+        //set the fronts next, to the fronts next next
+        front.getNext().setElement(front.getNext().getNext().getElement());
+        //set the fronts next next element to the temp
+        front.getNext().getNext().setElement(temp.getElement());
+        
+        return true;
+    }
+    
+    //swaps the two rear node elements
+    public boolean swapRear()
+    {
+        if (count() < 2) return false;
+        DoubleLinkedNode<T> temp = new DoubleLinkedNode();
+        temp.setElement((T) rear.getPrev().getElement());
+        rear.getPrev().setElement(rear.getPrev().getPrev().getElement());
+        //set the fronts next next element to the temp
+        rear.getPrev().getPrev().setElement(temp.getElement());
+        return true;
+    }
+    
+    //removes the given element
+    public boolean remove(int index)
+    {
+        if (count() == 0) return false;
+        if (index > count())
+            throw new NullPointerException("INDEX IS OUTTA RANGE HOMIE");
+        
+        DoubleLinkedNode<T> sentinal;
+        //splits the loop in half depending on how close the 
+        //index is to the rear or front
+        if (index > (count()/2))
+        {
+            System.out.println("from rear");
+            sentinal = rear;
+            for (int i = 0; i < (index + 1); i++)
+            {
+                sentinal = sentinal.getPrev();
+            }
+            sentinal.setNext(sentinal.getNext().getNext());
+            sentinal.getNext().setPrev(sentinal);           
+        }
+        
+        //if the index is close to hte front
+        else
+        {
+            System.out.println("from front");
+            sentinal = front;
+            for (int i = 0; i < (index - 1); i++)
+            {
+                sentinal = sentinal.getNext();
+            }
+            sentinal.setNext(sentinal.getNext().getNext());
+            sentinal.getNext().setPrev(sentinal);
+        }
+       return true;
+    }
+    //Prints the Queue
+    @Override
+    public String toString()
+    {
+        DoubleLinkedNode<T> temp;
+        temp = front.getNext();
+        System.out.print("{ ");
+        for (int i = 0; i < count(); i++)
+        {
+            System.out.print(temp.getElement() + " ");
+            temp = temp.getNext();
+        }
+        
+        System.out.println("}");
+        return null ;
+    }
+
+    //counts the ammount of elements recursivly
+    public int count()
+    {
+        DoubleLinkedNode<T> sent;
+        sent = front;
+        return countHelper(sent);
+    }
+    //recursive counter
+    private int countHelper(DoubleLinkedNode sent)
+    {
+        if (sent.getNext() == rear) return 0;
+        return 1 + countHelper(sent.getNext());
+    }
+    
+}
