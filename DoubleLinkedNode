@@ -44,7 +44,5 @@ public class DoubleLinkedNode<T>
     public void setElement(T element) {
         this.element = element;
     }
-    
-    
-    
+
 }
