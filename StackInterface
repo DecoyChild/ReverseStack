@@ -1,0 +1,14 @@
+public interface StackInterface<T>
+{
+    //pushes on the stack
+    public boolean push(T data);
+    //removes from the top of the stack
+    public void pop();
+    //look at the top element of the stack
+    public T peek();
+    //clears the stack
+    public void clear();
+    //get the size of the stack
+    public int size();
+   
+}
